@@ -27,3 +27,10 @@ p = Person("老王",55)
 print(p.__dict__)
 #应用场景：查询系统类的属性和函数
 print(str.__dict__)
+
+#3.__moudle__:获取某个对象属于哪个模块，如果是当前模块则返回__main__，如果是其他模块，则返回模块名
+print(p.__module__)
+
+#4.__class__:类似于type(),获取对象的数据类型
+print(p.__class__)
+print(type(p))
