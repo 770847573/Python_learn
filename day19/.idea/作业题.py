@@ -62,16 +62,96 @@ print(person1)
 
 """
 class Book(object):
-    book_list = []
+
     def __init__(self,name,author,index):
         self.name = name
         self.author = author
         self.isborrow = False#默认为False
         self.index = index
-
+    def __str__(self):
+        return f"书名：《{self.name}》,作者：{self.author}"
+    __repr__ = __str__
 class BookManager(object):
-    def add_book(self,book):
-        index_list = [ book.index for book in Book.book_list]
-        whlie True:
+    book_list = []
+    def start(self):
+        book1 = Book('Python','tom','a1')
+        book2 = Book('Java','Jerry','a2')
+        self.book_list.append(book1)
+        self.book_list.append(book2)
+        print(self.book_list)
+    def menu(self):
+        self.start()
+        print("欢迎进入图书馆管理系统")
+        while True:
+            print("""
+                                   图书管理系统
+                               1. 添加图书
+                               2. 借书 (根据图书名借书)
+                               3. 还书
+                               4. 查询数据(根据图书名查询)
+                               5. 退出
 
-            Book.book_list.append()
+                        """)
+            choice = input("请输入相应的数字办理业务")
+            if choice == '1':
+                self.add_book()
+            if choice == '2':
+                self.borrow_book()
+            if choice == '3':
+                self.back_book()
+            if choice == '4':
+                name = input("请输入图书名字")
+                isexist = self.check_book(name)
+                if isexist != None:
+                    print(f"{name}书籍存在")
+                else:
+                    print(f"{name}书籍不存在")
+            if choice == '5':
+                break
+
+    def add_book(self):
+        name = input("请输入图书名字：")
+        author = input("请输入作者：")
+        index_list = [ book.index for book in self.book_list]
+        while True:
+            index = input("请输入存放位置：")
+            if index not in index_list:
+                break
+            else:
+                print("该位置已有图书，请重新输入位置")
+        book = Book(name, author, index)
+        self.book_list.append(book)
+        print(f"{name}添加完成")
+
+    def borrow_book(self):
+        name = input("请输入想借的图书名字：")
+
+        book = self.check_book(name)
+        if book != None:
+                if book.isborrow == False:
+                   book.isborrow = True
+                   print(f"{name}已借阅成功")
+                else:
+                    print(f"{name}图书已借出")
+        else:
+                print(f"{name}图书不存在")
+
+    def back_book(self):
+        name = input("请输入归还书籍名字：")
+        book = self.check_book(name)
+        if book != None:
+            book.isborrow = False
+            print(f"{name}已经成功归还")
+        else:
+            print(f"{name}这本书不是这里的")
+
+
+    def check_book(self,name):
+        for book in self.book_list:
+            if book.name == name:
+                print(book.isborrow)
+                return book
+        return None
+
+manager = BookManager()
+manager.menu()
