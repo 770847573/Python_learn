@@ -1,0 +1,22 @@
+https://www.cnblogs.com/cc66/p/9414718.html
+1.查看linux下的硬盘挂载的空间、使用空间
+	使用命令 ： df -h
+2.查看没有挂载的硬盘是否检测在系统中
+	查看系统检测的硬盘 命令：lsblk
+3.挂载 （挂载完，要在/etc/fstab 下面配置挂载信息 要不然重启挂载就消失了）
+	使用下面命令格式化已附加上，但df -h不能看到的卷
+	sudo mkfs -t ext4 /dev/vdb  #备注vdb都是存在在/dev 下面的
+	创建一个要挂载的目录
+	sudo mkdir /data
+	挂载命令 把空间挂在/data  把格式化后的卷mount到一个目录
+	sudo mount /dev/vdb /data
+	使用df -h 再次检查是否正常
+	
+	到 /etc/fstab 下配置挂载信息，添加一条记录，如有就复制一条，修改一下即可（十分重要） 如下：
+	/dev/vdb /data auto defaults,nofail,comment=cloudconfig 0 2
+
+	添加完毕以后可以试一下fstab文件是否能正常运行。
+	sudo mount -a  测试是否挂载成功（如果出错，不要重启，否则就GG了）
+
+
+https://blog.csdn.net/iambeliveble/article/details/86511667
