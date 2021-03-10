@@ -9,4 +9,4 @@ class Shopcar(object):
         self.goods_dic = {}
     def __str__(self):
         return f"商品列表：{self.goods_dic}"
-    __repr__ - __str__
+    __repr__ = __str__

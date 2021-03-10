@@ -26,28 +26,31 @@ def singleton(cls):
 
 @singleton
 class Storage(object):
-      __slots__ = ("goods_list",)
-      def __init__(self):
-          self.load_goods()
+    __slots__ = ("goods_list",)
 
-      def load_goods(self):
+    def __init__(self):
+          self.__load_goods()
+
+    def __load_goods(self):
           if os.path.exists(path):
-             self.read_file()
-      # 程序第一次启动时，本地没有文件，将预设商品列表存储到本地文件
+             self.read_goods()
+
+    # 程序第一次启动时，本地没有文件，将预设商品列表存储到本地文件
           else:
               self.goods_list = []
-              for i in name_list:
+              for i in len(name_list):
                   goods = Goods(name_list[i],price_list[i],num_list[i])
                   self.goods_list.append(goods)
-              self.write_file()
+              self.save_goods()
 
-      def read_file(self):
-          with open(path, "rb") as goods_file_r:
-              file_list = pickle.load(goods_file_r)
-              self.goods_list = file_list
+    def read_goods(self):
+        with open(path, "rb") as goods_file_r:
+            file_list = pickle.load(goods_file_r)
+            self.goods_list = file_list
 
-      def write_file(self):
-          with open(path, "wb") as goods_file_w:
-              pickle.dump(self.goods_list, goods_file_w)
+    def save_goods(self):
+        with open(path, "wb") as goods_file_w:
+            pickle.dump(self.goods_list, goods_file_w)
+
 
 
