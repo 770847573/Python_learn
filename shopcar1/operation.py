@@ -197,6 +197,7 @@ class Operation(object):
                     storage.save_goods()
 
                     print(f"商品{sto_goods.gname}添加购物车成功！！！")
+                    print(user.shopcar)
         else:
             print("商品编号输入有误")
 
@@ -264,7 +265,7 @@ class Operation(object):
 
         # 计算总价格
         total = 0
-        for goods,num in user.shopcar.goods_dict.items():
+        for goods, num in user.shopcar.goods_dict.items():
             total += goods.price * num
         print(f"结算成功，所有商品总计为：{total}")
 

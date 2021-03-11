@@ -38,7 +38,7 @@ class Storage(object):
     # 程序第一次启动时，本地没有文件，将预设商品列表存储到本地文件
           else:
               self.goods_list = []
-              for i in len(name_list):
+              for i in range(len(name_list)):
                   goods = Goods(name_list[i],price_list[i],num_list[i])
                   self.goods_list.append(goods)
               self.save_goods()

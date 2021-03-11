@@ -75,17 +75,17 @@ class Operation(object):
     __slots__ = ("user_dict", "current_id")
 
     def __init__(self):
-        self.load_user()
+        self.__load_user()
 
     # 加载用户信息
-    def load_user(self):
+    def __load_user(self):
         if os.path.exists(path):
             with open(path,'rb') as f:
                 self.user_dict = pickle.load(f)
         else:
             # 第一次启动程序，还未登陆过
             self.user_dict = {}
-            self.current_id = None
+        self.current_id = None
 
     # 获取新的id
     def get_new_id(self):
@@ -168,7 +168,7 @@ class Operation(object):
         choice = int(input("请输入你要买的商品相应的编号"))
         storage = Storage()
         # 获取仓库中的商品对象
-        sto_goods = Storage.goods_list[choice]
+        sto_goods = storage.goods_list[choice]
         buy_num = int(input("请输入购买的数量："))
         if buy_num < 0:
             print("输入有误")
@@ -176,10 +176,25 @@ class Operation(object):
             while buy_num > sto_goods.free_num:
                 buy_num = int(input(f"{sto_goods.gname}还剩{sto_goods.free_num}件，请重新输入"))
             else:
-                # 创建一个新的商品对象添加到购物车中
-                shopcar_goods = Goods(sto_goods.gname, sto_goods.price, buy_num)
-                user.car.goods_dic[shopcar_goods] = buy_num
-                sto_goods.free_num -= buy_num
+                # 购物车已经有了同款商品，只需修改数量即可
+                for goods in user.car.goods_dic:
+                    if sto_goods.gname == goods.gname:
+                        goods.free_num += buy_num
+                        user.car.goods_dic[goods]= goods.free_num
+                        sto_goods.free_num -= buy_num
+                        print(f"{sto_goods.gname}{buy_num}件添加购物车成功！！")
+                        print(user.car)
+                        break
+
+
+                else:
+                    # 添加的商品在购物车里没有同款
+                    # 创建一个新的商品对象添加到购物车中
+                    shopcar_goods = Goods(sto_goods.gname, sto_goods.price, buy_num)
+                    user.car.goods_dic[shopcar_goods] = buy_num
+                    sto_goods.free_num -= buy_num
+                    print(f"{sto_goods.gname}{buy_num}件添加购物车成功！！")
+                    print(user.car)
                 # 同步本地数据
                 self.save_user()
                 storage.save_goods()
@@ -212,7 +227,7 @@ class Operation(object):
                 sto_goods = sgoods
 
         del_num = int(input("请输入删除的数量"))
-        if del_num >= user.car.goods_dic[goods_name]:
+        if del_num >= user.car.goods_dic[ugoods]:
             print(f"清空购物车中的{goods_name}")
             user.car.goods_dic.pop(ugoods)
             sto_goods.free_num += ugoods.free_num
@@ -221,18 +236,23 @@ class Operation(object):
             ugoods.free_num -= del_num
             user.car.goods_dic[ugoods] = ugoods.free_num
             sto_goods.free_num += del_num
+            print(f"{ugoods.gname}删除{del_num}成功")
 
         self.save_user()
         storage.save_goods()
 
     def total(self):
         user = self.check_login()
+        if not user:
+            print("还未登录，请先登录")
+            return
         total_price = 0
         for goods,num in user.car.goods_dic.items():
-            total_price += goods.free_num * num
-            print(f"总价格为{total_price}元")
+            total_price += goods.price * num
+        print(f"结算成功，总价格为{total_price}元")
         # 清空购物车
-        user.car.goods_dic.claer()
+        user.car.goods_dic.clear()
+        self.save_user()
 
     def logoff(self):
         user = self.check_login()
