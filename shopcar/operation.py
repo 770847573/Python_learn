@@ -80,7 +80,7 @@ class Operation(object):
     # 加载用户信息
     def __load_user(self):
         if os.path.exists(path):
-            with open(path,'rb') as f:
+            with open(path, 'rb') as f:
                 self.user_dict = pickle.load(f)
         else:
             # 第一次启动程序，还未登陆过
@@ -90,13 +90,14 @@ class Operation(object):
     # 获取新的id
     def get_new_id(self):
         while True:
-            user_id = random.randint(10000,99999)
-            if user_id not in self.user_dict: # 说明此id没有生成过
+            user_id = random.randint(10000, 99999)
+            # 说明此id没有生成过
+            if user_id not in self.user_dict:
                 return user_id
     # 同步本地用户数据
 
     def save_user(self):
-        with open(path,'wb') as user_file_w:
+        with open(path, 'wb') as user_file_w:
             pickle.dump(self.user_dict, user_file_w)
 
     # 注册
