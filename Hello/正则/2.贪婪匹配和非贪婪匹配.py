@@ -12,12 +12,12 @@ import  re
 print(re.findall(r"\d?","xyz6575725ghgh-675365gnajke")) # ['','','','6','5'.....'5',.....]
 print(re.findall(r"\d*","xyz6575725ghgh-675365gnajke")) # ['','','',"6575725",''...."675365",''.....]
 print(re.findall(r"\d+","xyz6575725ghgh-675365gnajke")) # ["6575725","675365"]
-
+print("*" * 30)
 # b.*和+:尽可能多的匹配
 # 结论：在+或者*的后面使用?,可以将贪婪匹配转换为飞贪婪匹配，但是，只能在正则表达式开头有限制条件的时候才能起作用
 # 情况一：正则开头添加限制条件
-print(re.findall(r"z\d*","xyz6575725ghgh-675365gnajke"))   # ["z6575725"]
-print(re.findall(r"z\d+","xyz6575725ghgh-675365gnajke"))    # ["z6575725"]
+print(re.findall(r"z\d*","xyz6575725ghgh-675365gnazjke"))   # ["z6575725","z"]
+print(re.findall(r"z\d+","xyz6575725ghgh-675365gnazjke"))    # ["z6575725"]
 # 尽可能少的匹配
 print(re.findall(r"z\d*?","xyz6575725ghgh-675365gnajke"))  # ['z']
 print(re.findall(r"z\d+?","xyz6575725ghgh-675365gnajke"))  # ['z6']
