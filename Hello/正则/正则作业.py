@@ -56,12 +56,12 @@ def findword():
 """
 4.提取用户输入数据中的数值 (数值包括正负数 还包括整数和小数在内) 并求和 
 
-    例如:“-3.14good87nice19bye” =====> -3.14 + 87 + 19 = 102.86
+    例如:“-3.14good87nice19bye000255.565” =====> -3.14 + 87 + 19 = 102.86
 """
 
 def extract_digital():
     words = input('请输入一串字符：')
-    digial_list = re.findall(r'-?\d+\.*\d+',words)
+    digial_list = re.findall(r'[-]?(?:0|[1-9]\d*)(?:\.\d*)?',words)
     print(digial_list)
     k = 0
     for item in digial_list:
