@@ -18,9 +18,12 @@ while True:
 
     while True:
         data = tcpCLISock.recv(BUFSIZ)
+        print('收到来自%s的消息：%s'%(addr,data.decode('utf-8')))
         if not data:
             break
-        tcpCLISock.send(f"{bytes(ctime(),'utf-8')},{bytes(data,'utf-8')}")
+        data = f'[{ctime()}]' + data.decode('utf-8')
+
+        tcpCLISock.send(bytes(data,encoding='utf-8'))
 
     tcpCLISock.close()
 tcpSerSoc.close()

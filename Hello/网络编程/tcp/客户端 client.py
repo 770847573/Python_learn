@@ -13,7 +13,7 @@ while True:
     data = input('>')
     if not data:
         break
-    tcpCLISock.send(bytes(data,'utf-8'))
+    tcpCLISock.send(bytes(data,encoding='utf-8'))
     server_data = tcpCLISock.recv(BUFSIZ)
     if not server_data:
         break
