@@ -4,7 +4,7 @@ import threading
 def test():
 
         time.sleep(1)
-        current_thread = threading.current_thread()
+        current_thread = threading.current_thread().name
         print(current_thread)
 
 if __name__ == "__main__":
